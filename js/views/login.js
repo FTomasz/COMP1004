@@ -1,5 +1,5 @@
 export function renderLogin(container) {
-  container.innerHTML = `
+  container.innerHTML = /*html*/ `
     <section class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
         <h2 class="mb-4 text-center">Login</h2>

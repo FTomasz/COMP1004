@@ -3,22 +3,26 @@ export function renderLogin(container) {
     <section class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
         <h2 class="mb-4 text-center">Login</h2>
+
         <form id="login-form">
           <div class="mb-3">
             <label class="form-label">Username</label>
-            <input type="text" class="form-control" required>
+            <input id="username" type="text" class="form-control" required>
           </div>
 
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input type="password" class="form-control" required>
+            <input id="password" type="password" class="form-control" required>
           </div>
 
-          <button class="btn">
-            Login
-          </button>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
       </div>
     </section>
   `;
+
+  document.getElementById("login-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Login clicked (prototype)");
+  });
 }

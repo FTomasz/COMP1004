@@ -2,12 +2,24 @@ import { register } from "../auth.js";
 
 
 export function renderRegister(rootEl) {
-  rootEl.innerHTML = `
-    <form id="register-form">
-      <input id="reg-username" />
-      <input id="reg-password" type="password" />
-      <button type="submit">Register</button>
-    </form>
+  rootEl.innerHTML = /*html*/`
+    <section class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <h2 class="mb-4 text-center">Register</h2>
+          <form id="register-form">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input id="reg-username" type="text" class="form-control" required/>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input id="reg-password" type="password" class="form-control" required/>
+          </div>
+          <button type="submit" class="btn btn-secondary w-100 mt-3">Register</button>
+          </form>
+      </div>
+    </section>
   `;
 
   //get references

@@ -46,6 +46,8 @@ export function renderLogin(container) {
 
 
       //ensure that the function exists in the scope before calling it
+      //update navbar and set the view to dashboard
+      if (typeof window.updateNavbar === "function") window.updateNavbar();
       if (typeof window.setView === "function") window.setView("dashboard");
     } catch (err) {
       console.error("Login failed:", err);

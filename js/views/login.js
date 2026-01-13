@@ -15,14 +15,14 @@ export function renderLogin(container) {
             <input id="password" type="password" class="form-control" required>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100">Login</button>
+          <button type="submit" class="btn btn-secondary w-100 mt-3">Login</button>
         </form>
       </div>
     </section>
   `;
 
   document.getElementById("login-form").addEventListener("submit", (e) => {
+    // stop the browser refreshing
     e.preventDefault();
-    alert("Login clicked (prototype)");
   });
 }

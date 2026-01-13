@@ -6,10 +6,6 @@ export function renderHome(container) {
       <p>
         Create and share structured holiday plans.
       </p>
-
-      <a href="/login" data-link class="btn">
-        Login
-      </a>
     </section>
   `;
 }

@@ -44,6 +44,9 @@ export function renderRegister(rootEl) {
       //if authentication token and data was returned then store it in local storage
       if (res?.token) localStorage.setItem("auth_token", res.token);
       if (res?.user) localStorage.setItem("auth_user", JSON.stringify(res.user));
+
+      //send user to the login after they have registered
+      window.setView("login");
     } catch (err) {
       console.error("Register failed:", err);
     }

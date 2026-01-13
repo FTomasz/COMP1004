@@ -30,6 +30,9 @@ window.addEventListener("DOMContentLoaded", () => {
   //default
   setView("home");
 
+  //expose so can use globally (need for register to go to dashboard)
+  window.setView = setView;
+
   //when clicked go to view
   document.getElementById("nav-home").addEventListener("click", () => setView("home"));
   document.getElementById("nav-login").addEventListener("click", () => setView("login"));

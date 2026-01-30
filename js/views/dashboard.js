@@ -1,4 +1,4 @@
-export function renderDashboard(rootEl) {
-  rootEl.innerHTML = `<div>Dashboard</div>`;
+export function renderDashboard(container) {
+  container.innerHTML = `<div>Dashboard</div>`;
 }
 //placeholder

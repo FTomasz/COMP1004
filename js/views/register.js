@@ -1,8 +1,8 @@
 import { register } from "../auth.js";
 
 
-export function renderRegister(rootEl) {
-  rootEl.innerHTML = /*html*/`
+export function renderRegister(container) {
+  container.innerHTML = /*html*/`
     <section class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
         <h2 class="mb-4 text-center">Register</h2>
@@ -23,9 +23,9 @@ export function renderRegister(rootEl) {
   `;
 
   //get references
-  const form = rootEl.querySelector("#register-form");
-  const usernameEl = rootEl.querySelector("#reg-username");
-  const passwordEl = rootEl.querySelector("#reg-password");
+  const form = container.querySelector("#register-form");
+  const usernameEl = container.querySelector("#reg-username");
+  const passwordEl = container.querySelector("#reg-password");
 
   //listen to the submit button on the form
   form.addEventListener("submit", (e) => {

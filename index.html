@@ -18,15 +18,32 @@
     <div class="container">
       <a class="navbar-brand" href="/" data-link>Home</a>
 
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <button id="nav-home" class="nav-link btn btn-link text-decoration-none" type="button">Home</button>
-          <button id="nav-login" class="nav-link btn btn-link text-decoration-none" type="button">Login</button>
-          <button id="nav-register" class="nav-link btn btn-link text-decoration-none" type="button">Register</button>
-          <button id="nav-dashboard" class="nav-link btn btn-link text-decoration-none" type="button">Dashboard</button>
-          <button id="nav-logout" class="nav-link btn btn-link text-decoration-none ms-auto" type="button">Logout</button>
-        </ul>
-      </div>
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="toggler-icon top-bar"></span>
+        <span class="toggler-icon middle-bar"></span>
+        <span class="toggler-icon bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a id="nav-home" class="nav-link" href="#" data-link>Home</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-login" class="nav-link" href="#" data-link>Login</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-register" class="nav-link" href="#" data-link>Register</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-dashboard" class="nav-link" href="#" data-link>Dashboard</a>
+        </li>
+        <li class="nav-item ms-lg-auto">
+          <a id="nav-logout" class="nav-link" href="#" data-link>Logout</a>
+        </li>
+      </ul>
+    </div>
     </div>
   </nav>
 

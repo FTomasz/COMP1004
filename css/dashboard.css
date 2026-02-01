@@ -1,0 +1,15 @@
+.btn-create {
+  --bs-btn-bg: #4f6f52;
+}
+
+.btn-edit {
+  --bs-btn-bg: #5f6f94;
+}
+
+.btn-publish {
+  --bs-btn-bg: #b59b4c;
+}
+
+.btn-delete {
+  --bs-btn-bg: #8b4a4a;
+}

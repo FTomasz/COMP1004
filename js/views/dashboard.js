@@ -35,4 +35,10 @@ export function renderDashboard(container) {
       </div>
     </section>
   `;
+
+  document.getElementById("dashboard-btn-create").addEventListener("click", () => window.setView("createItinerary"));
+  document.getElementById("dashboard-btn-edit").addEventListener("click", () => window.setView("editItinerary"));
+  document.getElementById("dashboard-btn-publish").addEventListener("click", () => window.setView("publishItinerary"));
+  document.getElementById("dashboard-btn-delete").addEventListener("click", () => window.setView("deleteItinerary"));
+  
 }

@@ -4,6 +4,10 @@ import { renderHome } from "./views/home.js";
 import { renderLogin } from "./views/login.js";
 import { renderDashboard } from "./views/dashboard.js";
 import { renderRegister } from "./views/register.js";
+import { renderCreateItinerary } from "./views/createItinerary.js";
+import { renderEditItinerary } from "./views/editItinerary.js";
+import { renderPublishItinerary } from "./views/publishItinerary.js";
+import { renderDeleteItinerary } from "./views/deleteItinerary.js";
 
 let app;
 
@@ -21,6 +25,18 @@ function setView(viewName) {
       break;
     case "dashboard":
       renderDashboard(app);
+      break;
+    case "createItinerary":
+      renderCreateItinerary(app);
+      break;
+    case "editItinerary":
+      renderEditItinerary(app);
+      break;
+    case "publishItinerary":
+      renderPublishItinerary(app);
+      break;
+    case "deleteItinerary":
+      renderDeleteItinerary(app);
       break;
     default:
       renderHome(app);
@@ -65,7 +81,6 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("nav-login").addEventListener("click", () => setView("login"));
   document.getElementById("nav-register").addEventListener("click", () => setView("register"));
   document.getElementById("nav-dashboard").addEventListener("click", () => setView("dashboard"));
-
   
   document.getElementById("nav-logout").addEventListener("click", () => {
     //logout, refresh navbar and send user back to the homepage

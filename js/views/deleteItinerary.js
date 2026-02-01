@@ -1,4 +1,4 @@
-export function renderEditItinerary(container) {
+export function renderDeleteItinerary(container) {
   
   container.innerHTML = /*html*/ `
     <section class="text-center">

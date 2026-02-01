@@ -35,6 +35,7 @@ function updateNavbar() {
   const navLogin =document.getElementById("nav-login");
   const navRegister = document.getElementById("nav-register");
   const navLogout = document.getElementById("nav-logout");
+  const navDashboard = document.getElementById("nav-dashboard");
 
   //ensure they exist
   if (!navLogin || !navRegister || !navLogout) return;
@@ -43,6 +44,7 @@ function updateNavbar() {
   navLogin.style.display = loggedIn ? "none" : "inline-block";
   navRegister.style.display = loggedIn ? "none" : "inline-block";
   navLogout.style.display = loggedIn ? "inline-block" : "none";
+  navDashboard.style.display = loggedIn ? "inline-block" : "none";
 }
 
 

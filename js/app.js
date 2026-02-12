@@ -4,10 +4,8 @@ import { renderHome } from "./views/home.js";
 import { renderLogin } from "./views/login.js";
 import { renderDashboard } from "./views/dashboard.js";
 import { renderRegister } from "./views/register.js";
-import { renderCreateItinerary } from "./views/createItinerary.js";
 import { renderEditItinerary } from "./views/editItinerary.js";
 import { renderPublishItinerary } from "./views/publishItinerary.js";
-import { renderDeleteItinerary } from "./views/deleteItinerary.js";
 
 let app;
 
@@ -26,17 +24,11 @@ function setView(viewName) {
     case "dashboard":
       renderDashboard(app);
       break;
-    case "createItinerary":
-      renderCreateItinerary(app);
-      break;
     case "editItinerary":
       renderEditItinerary(app);
       break;
     case "publishItinerary":
       renderPublishItinerary(app);
-      break;
-    case "deleteItinerary":
-      renderDeleteItinerary(app);
       break;
     default:
       renderHome(app);

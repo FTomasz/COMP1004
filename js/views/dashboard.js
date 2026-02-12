@@ -1,44 +1,41 @@
 export function renderDashboard(container) {
-  container.innerHTML = `
+  container.innerHTML = /*html*/ `
     <section class="container py-4">
       <div class="row justify-content-center mb-4">
-        <div class="col-12 col-lg-8">
-          <h2 class="text-center mb-0">Dashboard</h2>
+        <div class="col-12 col-lg-10">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h2 class="mb-0">Dashboard</h2>
+
+            <div class="d-flex gap-2">
+              <button id="dashboard-btn-create" class="btn btn-primary">
+                Create Itinerary
+              </button>
+              <button id="dashboard-btn-publish" class="btn btn-publish">
+                Publish Itinerary
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-center">
-
-        <div class="col-12 col-md-6 col-lg-3">
-          <button id="dashboard-btn-create" class="btn btn-create btn-lg w-100 py-4">
-            Create Itinerary
-          </button>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-          <button id="dashboard-btn-edit" class="btn btn-edit btn-lg w-100 py-4">
-            Edit Itinerary
-          </button>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-          <button id="dashboard-btn-publish" class="btn btn-publish btn-lg w-100 py-4">
-            Publish Itinerary
-          </button>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-          <button id="dashboard-btn-delete" class="btn btn-delete btn-lg w-100 py-4">
-            Delete Itinerary
-          </button>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="mb-3">Your itineraries</h5>
+              <div id="itinerary-list" class="d-flex flex-column gap-2"></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   `;
 
-  document.getElementById("dashboard-btn-create").addEventListener("click", () => window.setView("createItinerary"));
-  document.getElementById("dashboard-btn-edit").addEventListener("click", () => window.setView("editItinerary"));
-  document.getElementById("dashboard-btn-publish").addEventListener("click", () => window.setView("publishItinerary"));
-  document.getElementById("dashboard-btn-delete").addEventListener("click", () => window.setView("deleteItinerary"));
-  
+  document.getElementById("dashboard-btn-create").addEventListener("click", () => {
+    window.setView("editItinerary");
+  });
+
+  document.getElementById("dashboard-btn-publish").addEventListener("click", () => {
+    window.setView("publishItinerary");
+  });
 }

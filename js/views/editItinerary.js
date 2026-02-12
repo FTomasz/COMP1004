@@ -7,8 +7,6 @@ export function renderEditItinerary(container) {
         <div class="col-lg-10">
           <h2 class="mb-4">Edit Itinerary</h2>
           <div id="itinerary-shell"></div>
-
-          <button id="open-itinerary-modal" class="btn btn-primary mt-3">Create / Edit Itinerary</button>
         </div>
       </div>
     </section>
@@ -73,24 +71,57 @@ export function renderEditItinerary(container) {
   // Initialise itinerary
   let itinerary = null;
 
-  // display itinerary modal
-  document.getElementById("open-itinerary-modal").onclick = () => {
+  //set the mode to create by default, check session for active Itinerary
+  let itineraryMode = "create";
+
+  const activeItineraryId = sessionStorage.getItem("active_itinerary_id");
+
+  //try to get the itinerary from local storage
+  itinerary = activeItineraryId ? loadItinerary(activeItineraryId) : null;
+
+  if (itinerary) {
+    //if itinerary is loaded, then display the itinerary with editing options
+    itineraryMode = "edit";
+    displayItineraryCard();
+  } else {
+    //if no itinerary already, then prompt user with itinerary modal
+    displayEmpty();
     itineraryModal.show();
-  };
+  }
+
+
 
   // build itinerary
   document.getElementById("save-itinerary-btn").onclick = () => {
-    itinerary = {
-      // generate unique id for itinerary
-      id: `itinerary_${Date.now()}`,
+
+    const data = {
       title: get("itinerary-title").trim() || "Untitled itinerary",
       country: get("itinerary-country").trim(),
       season: get("itinerary-season").trim(),
       duration: get("itinerary-duration").trim(),
       description: get("itinerary-description").trim(),
-      // setup array to store the days in
-      days: [],
     };
+
+    //if there isn't an itinerary then create one and change mode to edit
+    if (!itinerary || itineraryMode === "create"){
+      itinerary = {id: `itinerary_${Date.now()}`, ...data, days: []};
+      itineraryMode = "edit";
+    } else {
+      //if itinerary already exists then update it
+      Object.assign(itinerary, data);
+    }
+
+    //save, show, hide modal
+    saveItinerary();
+    displayItineraryCard();
+    itineraryModal.hide();
+
+    // itinerary = {
+    //   // generate unique id for itinerary
+    //   id: `itinerary_${Date.now()}`,
+    //   // setup array to store the days in
+    //   days: [],
+    // };
 
     // display itinerary as a bootstrap card
     //ensure all data exists before rendering
@@ -107,6 +138,23 @@ export function renderEditItinerary(container) {
     // hide the modal after saving
     itineraryModal.hide();
   };
+
+  function displayEmpty() {
+    //display nothing
+  }
+
+  function displayItineraryCard(){
+    //display the itinerary card
+  }
+
+  function saveItinerary() {
+    //save the itinerary
+  }
+
+  function loadItinerary(id) {
+    //load the itinerary
+  }
+
 
   // pull string value from elements
   function get(id) {

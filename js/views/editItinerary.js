@@ -1,6 +1,7 @@
 export function renderEditItinerary(container) {
   container.innerHTML = /*html*/ `
   
+  <!-- Itinerary Editor -->
     <section class="container py-4">
       <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -12,6 +13,7 @@ export function renderEditItinerary(container) {
       </div>
     </section>
 
+    <!-- Add Itinerary Modal -->
     <div class="modal fade" id="itineraryModal" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -55,6 +57,7 @@ export function renderEditItinerary(container) {
             </div>
           </div>
 
+          <!-- Footer with function buttons -->
           <div class="modal-footer">
             <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
             <button id="save-itinerary-btn" class="btn btn-primary">Save</button>
@@ -67,23 +70,30 @@ export function renderEditItinerary(container) {
   const itineraryShell = document.getElementById("itinerary-shell");
   const itineraryModal = new bootstrap.Modal(document.getElementById("itineraryModal"));
 
+  // Initialise itinerary
   let itinerary = null;
 
+  // display itinerary modal
   document.getElementById("open-itinerary-modal").onclick = () => {
     itineraryModal.show();
   };
 
+  // build itinerary
   document.getElementById("save-itinerary-btn").onclick = () => {
     itinerary = {
+      // generate unique id for itinerary
       id: `itinerary_${Date.now()}`,
       title: get("itinerary-title").trim() || "Untitled itinerary",
       country: get("itinerary-country").trim(),
       season: get("itinerary-season").trim(),
       duration: get("itinerary-duration").trim(),
       description: get("itinerary-description").trim(),
+      // setup array to store the days in
       days: [],
     };
 
+    // display itinerary as a bootstrap card
+    //ensure all data exists before rendering
     itineraryShell.innerHTML = /*html*/ `
       <div class="card">
         <div class="card-body">
@@ -94,14 +104,17 @@ export function renderEditItinerary(container) {
       </div>
     `;
 
+    // hide the modal after saving
     itineraryModal.hide();
   };
 
+  // pull string value from elements
   function get(id) {
     const el = document.getElementById(id);
     return el ? el.value || "" : "";
   }
 
+  // stop malicious html injection!
   function escapeHtml(str) {
     return String(str)
       .replaceAll("&", "&amp;")

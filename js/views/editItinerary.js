@@ -125,26 +125,63 @@ export function renderEditItinerary(container) {
 
     // display itinerary as a bootstrap card
     //ensure all data exists before rendering
+    // itineraryShell.innerHTML = /*html*/ `
+    //   <div class="card">
+    //     <div class="card-body">
+    //       <h5 class="mb-1">${escapeHtml(itinerary.title)}</h5>
+    //       <div class="text-muted small">${escapeHtml(itinerary.country)} ${escapeHtml(itinerary.season)}</div>
+    //       ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
+    //     </div>
+    //   </div>
+    // `;
+
+    // // hide the modal after saving
+    // itineraryModal.hide();
+  };
+
+
+//display default message when no itinerary is present
+  function displayEmpty() {
+    itineraryShell.innerHTML = /*html*/ `
+    <div class="card">
+      <div class="card-body">
+        <p class="mb-3">Create an itinerary to start adding days.</p>
+        <button id="create-itinerary-btn" class="btn btn-primary">Create itinerary</button>
+      </div>
+    </div>
+    `;
+
+    document.getElementById("create-itinerary-btn").onclick = () => {
+      itineraryModal.show();
+    }
+  }
+
+
+//display itinerary in a neat and tidy card
+  function displayItineraryCard(){
     itineraryShell.innerHTML = /*html*/ `
       <div class="card">
-        <div class="card-body">
-          <h5 class="mb-1">${escapeHtml(itinerary.title)}</h5>
-          <div class="text-muted small">${escapeHtml(itinerary.country)} ${escapeHtml(itinerary.season)}</div>
-          ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
+        <div class="card-body d-flex justify-content-between align-items-start gap-3">
+          <div>
+            <h5 class="mb-1">${escapeHtml(itinerary.title)}</h5>
+            <div class="text-muted small">
+              ${itinerary.country ? escapeHtml(itinerary.country) : "No country"}
+              ${itinerary.season ? " · " + escapeHtml(itinerary.season) : ""}
+              ${itinerary.duration ? " · " + escapeHtml(itinerary.duration) + " days" : ""}
+            </div>
+            ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
+          </div>
+
+          <!-- edit button -->
+          <button id="edit-itinerary-btn" class="btn btn-outline-secondary btn-sm" type="button">Edit</button>
         </div>
       </div>
     `;
 
-    // hide the modal after saving
-    itineraryModal.hide();
-  };
+    document.getElementById("edit-itinerary-btn").onclick = () => {
+      itineraryModal.show();
+    }
 
-  function displayEmpty() {
-    //display nothing
-  }
-
-  function displayItineraryCard(){
-    //display the itinerary card
   }
 
   function saveItinerary() {

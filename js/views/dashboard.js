@@ -49,6 +49,25 @@ export function renderDashboard(container) {
   //for each itinerary display a card
 
   //function to get all the itineraries from storage
+  function getAllItineraries() {
+    //array for list of itineraries
+    const out = [];
+    //loop through every item in local storage
+    for (let i = 0; i < localStorage.length; i++){
+      const itineraryKey = localStorage.key(i);
+      //if itinerary key then proceed else loop
+      if(!itineraryKey || !itineraryKey.startsWith("itinerary_draft_")) continue;
+
+      try {
+        //pull data from localstorage and push it to the out array
+        const raw = localStorage.getItem(key);
+        const parsed = JSON.parse(raw);
+
+        if (parsed && parsed.id) out.push(parsed);
+      } catch (e) {}
+      return out;
+    }
+  }
   
 
 

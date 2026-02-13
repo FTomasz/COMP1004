@@ -53,7 +53,8 @@ export function renderDashboard(container) {
           </div>
         </div>
       </div>
-    `
+    `;
+    return;
   }
 
   //for each itinerary display a card
@@ -62,12 +63,16 @@ export function renderDashboard(container) {
   .map((itinerary) => displayItineraryCard(itinerary))
   .join("");
 
+
+  //map edit button to each itinerary, set the active itinerary id
+  //add listener to each button
+
   function displayItineraryCard(itinerary) {
     const itineraryParts = [];
 
     if (itinerary.country) itineraryParts.push(escapeHtml(itinerary.country));
     if (itinerary.season) itineraryParts.push(escapeHtml(itinerary.season));
-    if (itinerary) itineraryParts.push(escapeHtml(itinerary.month));
+    if (itinerary.month) itineraryParts.push(escapeHtml(itinerary.month));
     if (itinerary.duration) itineraryParts.push(`${escapeHtml(itinerary.duration)} days`);
 
     const data = itineraryParts.join(" · ");

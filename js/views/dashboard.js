@@ -57,6 +57,39 @@ export function renderDashboard(container) {
   }
 
   //for each itinerary display a card
+  itineraryList.innerHTML = itineraries
+  .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
+  .map((itinerary) => displayItineraryCard(itinerary))
+  .join("");
+
+  function displayItineraryCard(itinerary) {
+    const itineraryParts = [];
+
+    if (itinerary.country) itineraryParts.push(escapeHtml(itinerary.country));
+    if (itinerary.season) itineraryParts.push(escapeHtml(itinerary.season));
+    if (itinerary) itineraryParts.push(escapeHtml(itinerary.month));
+    if (itinerary.duration) itineraryParts.push(`${escapeHtml(itinerary.duration)} days`);
+
+    const data = itineraryParts.join(" · ");
+    const daysCount = (itinerary.days || []).length;
+
+    return /*html*/ `
+      <div class="card">
+        <div class="card-body d-flex justify-content-between align-items-start gap-3">
+          <div>
+            <h5 class="mb-1">${escapeHtml(itinerary.title || "Untitled itinerary")}</h5>
+            <div class="text-muted small">
+              ${data ? data : "No details"} · ${daysCount} day(s)
+            </div>
+            ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
+          </div>
+          <button class="btn btn-outline-secondary btn-sm" data-edit-id="${itinerary.id}" type="button">
+            Edit
+          </button>
+        </div>
+      </div>
+    `;
+  }
 
   //function to get all the itineraries from storage
   function getAllItineraries() {
@@ -70,13 +103,13 @@ export function renderDashboard(container) {
 
       try {
         //pull data from localstorage and push it to the out array
-        const raw = localStorage.getItem(key);
+        const raw = localStorage.getItem(itineraryKey);
         const parsed = JSON.parse(raw);
 
         if (parsed && parsed.id) out.push(parsed);
       } catch (e) {}
-      return out;
     }
+    return out;
   }
   
 

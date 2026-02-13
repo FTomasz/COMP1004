@@ -43,8 +43,18 @@ export function renderDashboard(container) {
   const itineraries = getAllItineraries();
 
   //display current itineraries
-
   //if no itineraries then display saying no itineraries
+  if (itineraries.length === 0) {
+    itineraryList.innerHTML = /*html*/ `
+      <div class="card">
+        <div class="card-body">
+          <div class="text-muted">
+            No itineraries yet
+          </div>
+        </div>
+      </div>
+    `
+  }
 
   //for each itinerary display a card
 

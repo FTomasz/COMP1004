@@ -185,11 +185,25 @@ export function renderEditItinerary(container) {
   }
 
   function saveItinerary() {
-    //save the itinerary
+    //add last updated 
+    itinerary.updatedAt = Date.now();
+    // add the itinerary to storage and set active itinerary id to current id
+    localStorage.setItem(`itinerary_draft_${itinerary.id}`, JSON.stringify(itinerary))
+    sessionStorage.setItem("active-itinerary-id", itinerary.id);
   }
 
   function loadItinerary(id) {
-    //load the itinerary
+    //retrieve the itinerary
+    const rawItinerary = localStorage.getItem(`itinerary_draft_${id}`);
+    //check if there is an itinerary
+    if (!rawItinerary) return null;
+
+    //parse the itinerary from storage
+    try {
+      return JSON.parse(rawItinerary);
+    } catch (e) {
+      return null;
+    }
   }
 
 

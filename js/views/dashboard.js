@@ -38,4 +38,26 @@ export function renderDashboard(container) {
   document.getElementById("dashboard-btn-publish").addEventListener("click", () => {
     window.setView("publishItinerary");
   });
+
+  const itineraryList = document.getElementById("itinerary-list");
+  const itineraries = getAllItineraries();
+
+  //display current itineraries
+
+  //if no itineraries then display saying no itineraries
+
+  //for each itinerary display a card
+
+  //function to get all the itineraries from storage
+  
+
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 }

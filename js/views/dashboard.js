@@ -67,6 +67,14 @@ export function renderDashboard(container) {
   //map edit button to each itinerary, set the active itinerary id
   //add listener to each button
 
+  itineraryList.querySelectorAll("[data-edit-id]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-edit-id");
+      sessionStorage.setItem("active_itinerary_id", id);
+      window.setView("editItinerary");
+    });
+  });
+
   function displayItineraryCard(itinerary) {
     const itineraryParts = [];
 
@@ -116,8 +124,6 @@ export function renderDashboard(container) {
     }
     return out;
   }
-  
-
 
   function escapeHtml(str) {
     return String(str)

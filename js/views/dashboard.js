@@ -7,7 +7,7 @@ export function renderDashboard(container) {
             <h2 class="mb-0">Dashboard</h2>
 
             <div class="d-flex gap-2">
-              <button id="dashboard-btn-create" class="btn btn-primary">
+              <button id="dashboard-btn-create" class="btn btn-create">
                 Create Itinerary
               </button>
               <button id="dashboard-btn-publish" class="btn btn-publish">
@@ -70,7 +70,7 @@ export function renderDashboard(container) {
   itineraryList.querySelectorAll("[data-edit-id]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.getAttribute("data-edit-id");
-      sessionStorage.setItem("active_itinerary_id", id);
+      sessionStorage.setItem("active-itinerary-id", id);
       window.setView("editItinerary");
     });
   });

@@ -138,7 +138,7 @@ export function renderEditItinerary(container) {
     <div class="card">
       <div class="card-body">
         <p class="mb-3">Create an itinerary to start adding days.</p>
-        <button id="create-itinerary-btn" class="btn btn-primary">Create itinerary</button>
+        <button id="create-itinerary-btn" class="btn btn-create">Create itinerary</button>
       </div>
     </div>
     `;

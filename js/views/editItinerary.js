@@ -74,7 +74,7 @@ export function renderEditItinerary(container) {
   //set the mode to create by default, check session for active Itinerary
   let itineraryMode = "create";
 
-  const activeItineraryId = sessionStorage.getItem("active_itinerary_id");
+  const activeItineraryId = sessionStorage.getItem("active-itinerary-id");
 
   //try to get the itinerary from local storage
   itinerary = activeItineraryId ? loadItinerary(activeItineraryId) : null;
@@ -115,28 +115,6 @@ export function renderEditItinerary(container) {
     saveItinerary();
     displayItineraryCard();
     itineraryModal.hide();
-
-    // itinerary = {
-    //   // generate unique id for itinerary
-    //   id: `itinerary_${Date.now()}`,
-    //   // setup array to store the days in
-    //   days: [],
-    // };
-
-    // display itinerary as a bootstrap card
-    //ensure all data exists before rendering
-    // itineraryShell.innerHTML = /*html*/ `
-    //   <div class="card">
-    //     <div class="card-body">
-    //       <h5 class="mb-1">${escapeHtml(itinerary.title)}</h5>
-    //       <div class="text-muted small">${escapeHtml(itinerary.country)} ${escapeHtml(itinerary.season)}</div>
-    //       ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
-    //     </div>
-    //   </div>
-    // `;
-
-    // // hide the modal after saving
-    // itineraryModal.hide();
   };
 
 

@@ -73,10 +73,93 @@ export function renderEditItinerary(container) {
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="dayModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add a day to the holiday!</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Day title</label>
+              <input id="day-title" class="form-control" placeholder="Day 1 – Arrival">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Notes</label>
+              <textarea id="day-notes" class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="save-day-btn" class="btn btn-primary">Add day</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="eventModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add event</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label class="form-label">Event name</label>
+                <input id="event-name" class="form-control">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Rating (0–10)</label>
+                <input id="event-rating" type="number" min="0" max="10" class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Location</label>
+                <input id="event-location" class="form-control">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Time spent (mins)</label>
+                <input id="event-duration" type="number" min="0" class="form-control">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Money spent</label>
+                <input id="event-cost" type="number" min="0" step="0.01" class="form-control">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea id="event-description" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="save-event-btn" class="btn btn-primary">Add event</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   `;
 
   const itineraryShell = document.getElementById("itinerary-shell");
+
   const itineraryModal = new bootstrap.Modal(document.getElementById("itineraryModal"));
+  const dayModal = new bootstrap.Modal(document.getElementById("dayModal"));
+  const eventModal = new bootstrap.Modal(document.getElementById("eventModal"));
 
   const toastPopup = document.getElementById("saveToast");
   //create Toast and autohide it
@@ -226,6 +309,21 @@ export function renderEditItinerary(container) {
     document.getElementById("itinerary-duration").value =  "";
     document.getElementById("itinerary-description").value =  "";
   }
+
+  function clearDayForm() {
+    document.getElementById("day-title").value = "";
+    document.getElementById("day-notes").value = "";
+  }
+
+  function clearEventForm() {
+    document.getElementById("event-name").value = "";
+    document.getElementById("event-location").value = "";
+    document.getElementById("event-duration").value = "";
+    document.getElementById("event-cost").value = "";
+    document.getElementById("event-rating").value = "";
+    document.getElementById("event-description").value = "";
+  }
+
 
   // stop malicious html injection!
   function escapeHtml(str) {

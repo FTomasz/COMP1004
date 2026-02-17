@@ -11,6 +11,16 @@ export function renderEditItinerary(container) {
       </div>
     </section>
 
+    <!-- Toast to say when item has saved -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+      <div id="saveToast" class="toast align-items-center" role="status">
+        <div class="d-flex">
+          <div class="toast-body">Saved successfully!</div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+    </div>
+
     <!-- Add Itinerary Modal -->
     <div class="modal fade" id="itineraryModal" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -67,6 +77,10 @@ export function renderEditItinerary(container) {
 
   const itineraryShell = document.getElementById("itinerary-shell");
   const itineraryModal = new bootstrap.Modal(document.getElementById("itineraryModal"));
+
+  const toastPopup = document.getElementById("saveToast");
+  //create Toast and autohide it
+  const saveToast = bootstrap.Toast.getOrCreateInstance(toastPopup, { autohide: true, delay: 1200})
 
   // Initialise itinerary
   let itinerary = null;
@@ -130,6 +144,7 @@ export function renderEditItinerary(container) {
     `;
 
     document.getElementById("create-itinerary-btn").onclick = () => {
+      clearItineraryForm();
       itineraryModal.show();
     }
   }
@@ -157,6 +172,7 @@ export function renderEditItinerary(container) {
     `;
 
     document.getElementById("edit-itinerary-btn").onclick = () => {
+      fillItineraryForm(itinerary);
       itineraryModal.show();
     }
 
@@ -168,6 +184,8 @@ export function renderEditItinerary(container) {
     // add the itinerary to storage and set active itinerary id to current id
     localStorage.setItem(`itinerary_draft_${itinerary.id}`, JSON.stringify(itinerary))
     sessionStorage.setItem("active-itinerary-id", itinerary.id);
+
+    saveToast.show();
   }
 
   function loadItinerary(id) {
@@ -189,6 +207,24 @@ export function renderEditItinerary(container) {
   function get(id) {
     const el = document.getElementById(id);
     return el ? el.value || "" : "";
+  }
+
+  //fill the itinerary form when editing 
+  function fillItineraryForm(itinerary) {
+    document.getElementById("itinerary-title").value = itinerary.title || "";
+    document.getElementById("itinerary-country").value = itinerary.country || "";
+    document.getElementById("itinerary-season").value = itinerary.season || "";
+    document.getElementById("itinerary-duration").value = itinerary.duration || "";
+    document.getElementById("itinerary-description").value = itinerary.description || "";
+  }
+
+  //clear the form when user creates a new itinerary, removing old data
+  function clearItineraryForm() {
+    document.getElementById("itinerary-title").value ="";
+    document.getElementById("itinerary-country").value = "";
+    document.getElementById("itinerary-season").value =  "";
+    document.getElementById("itinerary-duration").value =  "";
+    document.getElementById("itinerary-description").value =  "";
   }
 
   // stop malicious html injection!

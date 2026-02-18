@@ -106,7 +106,7 @@ export function renderEditItinerary(container) {
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add event</h5>
+            <h5 class="modal-title" id="eventModalTitle">Add event</h5>
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
@@ -151,8 +151,6 @@ export function renderEditItinerary(container) {
         </div>
       </div>
     </div>
-
-
   `;
 
   const itineraryShell = document.getElementById("itinerary-shell");
@@ -215,10 +213,79 @@ export function renderEditItinerary(container) {
   };
 
 
+//add day to itinerary
+
+document.getElementById("save-day-btn").onclick = () => {
+  const title = get("day-title").trim() || `Day ${itinerary.days.length + 1}`;
+  const notes = get("day-notes").trim();
+
+  //add info to days array
+  itinerary.days.push({
+    //generate unique id for the day
+      id: `day_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+      title,
+      notes,
+      events: [],
+    });
+
+  saveItinerary();
+  displayItineraryCard();
+  dayModal.hide();
+}
+
+//save event to the selected day
+
+document.getElementById("save-event-btn").onclick = () => {
+  const day = itinerary.days.find(d => d.id === selectedDayId);
+  if (!day) return;
+
+  const name = get("event-name").trim() || "Untitled event";
+  const ratingRaw = get("event-rating").trim();
+  const location = get("event-location").trim();
+  const durationRaw = get("event-duration").trim();
+  const costRaw = get("event-cost").trim();
+  const description = get("event-description").trim();
+
+  const rating = ratingRaw === "" ? "" : clampNumber(parseFloat(ratingRaw), 0, 10);
+  const duration = durationRaw === "" ? "" : Math.max(0, parseInt(durationRaw, 10) || 0);
+  const cost = costRaw === "" ? "" : Math.max(0, parseFloat(costRaw) || 0);
+
+  day.events.push({
+    id: `event_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    name,
+    rating,
+    location,
+    duration,
+    cost,
+    description,
+  });
+
+  saveItinerary();
+  displayItineraryCard();
+  eventModal.hide();
+};
+
+function clampNumber(n, min, max) {
+    if (Number.isNaN(n)) return min;
+    return Math.min(max, Math.max(min, n));
+}
+
 //btn eventlistener for the closest button to where was clicked
 itineraryShell.addEventListener("click", (e) => {
   const btn = e.target.closest("button");
   if (!btn) return;
+
+  if (btn.id === "create-itinerary-btn") {
+      clearItineraryForm();
+      itineraryModal.show();
+      return;
+  }
+
+  if (btn.id === "edit-itinerary-btn") {
+    fillItineraryForm(itinerary);
+    itineraryModal.show();
+    return;
+  }
 
   //button to add a new day to itinerary
   if (btn.id === "add-day-btn") {
@@ -226,6 +293,9 @@ itineraryShell.addEventListener("click", (e) => {
     dayModal.show();
     return;
   }
+
+
+
 });
 
 
@@ -239,11 +309,6 @@ itineraryShell.addEventListener("click", (e) => {
       </div>
     </div>
     `;
-
-    document.getElementById("create-itinerary-btn").onclick = () => {
-      clearItineraryForm();
-      itineraryModal.show();
-    }
   }
 
 
@@ -271,14 +336,62 @@ itineraryShell.addEventListener("click", (e) => {
         <h4 class="mb-0">Days</h4>
         <button id="add-day-btn" class="btn btn-primary btn-sm" type="button">Add day</button>
       </div>
+
+      ${renderDays()}
     `;
 
-    document.getElementById("edit-itinerary-btn").onclick = () => {
-      fillItineraryForm(itinerary);
-      itineraryModal.show();
+  }
+
+  function renderDays() {
+    const days = itinerary.days;
+
+    if(days.length === 0) {
+      return /*html*/ `
+        <div class="card mt-3">
+          <div class="card-body">
+            <p class="mb-0 text-muted">No days added yet.</p>
+          </div>
+        </div>
+      `;
     }
 
+    return /*html*/ `
+      <div class="mt-3 d-grid gap-3">
+        ${days.map((day, index) => renderDayCard(day, index)).join("")}
+      </div>
+    `;    
   }
+
+function renderDayCard(day, index) {
+    const title = day.title ? escapeHtml(day.title) : `Day ${index + 1}`;
+    const notes = day.notes ? escapeHtml(day.notes) : "";
+    const events = day.events;
+
+    return /*html*/ `
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start gap-3">
+            <div>
+              <h5 class="mb-1">${title}</h5>
+              ${notes ? `<div class="text-muted">${notes}</div>` : `<div class="text-muted small">No notes</div>`}
+            </div>
+
+            <button
+              class="btn btn-outline-primary btn-sm"
+              type="button"
+              data-action="add-event"
+              data-day-id="${escapeHtml(day.id)}"
+            >Add event</button>
+          </div>
+
+          <hr class="my-3" />
+
+          <div class="fw-semibold mb-2">Events</div>
+        </div>
+      </div>
+    `;
+  }
+  
 
   function saveItinerary() {
     //add last updated 

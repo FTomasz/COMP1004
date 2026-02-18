@@ -214,6 +214,17 @@ export function renderEditItinerary(container) {
     itineraryModal.hide();
   };
 
+itineraryShell.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+
+  if (btn.id === "add-day-btn") {
+    clearDayForm();
+    dayModal.show();
+    return;
+  }
+});
+
 
 //display default message when no itinerary is present
   function displayEmpty() {
@@ -251,6 +262,11 @@ export function renderEditItinerary(container) {
           <!-- edit button -->
           <button id="edit-itinerary-btn" class="btn btn-outline-secondary btn-sm" type="button">Edit</button>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-centre mt-4">
+        <h4 class="mb-0">Days</h4>
+        <button id="add-day-btn" class="btn btn-primary btn-sm" type="button">Add day</button>
       </div>
     `;
 

@@ -214,10 +214,13 @@ export function renderEditItinerary(container) {
     itineraryModal.hide();
   };
 
+
+//btn eventlistener for the closest button to where was clicked
 itineraryShell.addEventListener("click", (e) => {
   const btn = e.target.closest("button");
   if (!btn) return;
 
+  //button to add a new day to itinerary
   if (btn.id === "add-day-btn") {
     clearDayForm();
     dayModal.show();

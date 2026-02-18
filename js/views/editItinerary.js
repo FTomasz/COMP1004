@@ -31,38 +31,43 @@ export function renderEditItinerary(container) {
           </div>
 
           <div class="modal-body">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Itinerary title</label>
-                <input type="text" id="itinerary-title" class="form-control">
+
+            <form id="itinerary-form" class="needs-validation" novalidate>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Itinerary title</label>
+                  <input type="text" id="itinerary-title" class="form-control" required min-length="3">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Country</label>
+                  <input id="itinerary-country" class="form-control" required min-length="3">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Season</label>
+                  <select id="itinerary-season" class="form-select">
+                    <option value="" selected>Select</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                    <option value="Autumn">Autumn</option>
+                    <option value="Winter">Winter</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Duration (days)</label>
+                  <input id="itinerary-duration" type="number" min="1" class="form-control">
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Description</label>
+                  <textarea id="itinerary-description" class="form-control" rows="3"></textarea>
+                </div>
               </div>
 
-              <div class="col-md-6">
-                <label class="form-label">Country</label>
-                <input id="itinerary-country" class="form-control">
-              </div>
-
-              <div class="col-md-6">
-                <label class="form-label">Season</label>
-                <select id="itinerary-season" class="form-select">
-                  <option value="" selected>Select</option>
-                  <option value="Spring">Spring</option>
-                  <option value="Summer">Summer</option>
-                  <option value="Autumn">Autumn</option>
-                  <option value="Winter">Winter</option>
-                </select>
-              </div>
-
-              <div class="col-md-6">
-                <label class="form-label">Duration (days)</label>
-                <input id="itinerary-duration" type="number" min="1" class="form-control">
-              </div>
-
-              <div class="col-12">
-                <label class="form-label">Description</label>
-                <textarea id="itinerary-description" class="form-control" rows="3"></textarea>
-              </div>
-            </div>
+            </form>
           </div>
 
           <!-- Footer with function buttons -->
@@ -83,20 +88,22 @@ export function renderEditItinerary(container) {
           </div>
 
           <div class="modal-body">
-<!--https://www.w3schools.com/bootstrap5/bootstrap_form_validation.php -->
             <form id="day-form" class="needs-validation" novalidate>
 
               <div class="mb-3">
                 <label class="form-label">Day title</label>
                 <input id="day-title" class="form-control" placeholder="Day 1 – Arrival" required min-length="3">
                 <div class="invalid-feedback">
-                  Please enter a day title (at least 3 characters).
+                  Please enter a day title.
                 </div>
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Notes</label>
-                <textarea id="day-notes" class="form-control" rows="3"></textarea>
+                <textarea id="day-notes" class="form-control" rows="3" required min-length="20"></textarea>
+                <div class="invalid-feedback">
+                  Enter a brief overview of the day!
+                </div>
               </div>
 
             </form>
@@ -225,10 +232,11 @@ export function renderEditItinerary(container) {
 //add day to itinerary
 
 document.getElementById("save-day-btn").onclick = () => {
+
+  //pull form and check the form for validation
   const form = document.getElementById("day-form");
-
   form.classList.add("was-validated");
-
+  //return if the form validation fails
   if(!form.checkValidity()) return;
 
 

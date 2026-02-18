@@ -169,6 +169,7 @@ export function renderEditItinerary(container) {
   //set the mode to create by default, check session for active Itinerary
   let itineraryMode = "create";
 
+  let selectedDayId = null;
   const activeItineraryId = sessionStorage.getItem("active-itinerary-id");
 
   //try to get the itinerary from local storage
@@ -294,8 +295,18 @@ itineraryShell.addEventListener("click", (e) => {
     return;
   }
 
+  if (btn.dataset && btn.dataset.action === "add-event") {
+    selectedDayId = btn.dataset.dayId;
 
+    clearEventForm();
+    //find the right day, setup modal to add event to the right day
+    const day = itinerary.days.find(d => d.id === selectedDayId);
+    const eventModalTitle = document.getElementById("eventModalTitle");
+    eventModalTitle.textContent = day && day.title ? `Add event – ${day.title}` : "Add event";
 
+    eventModal.show();
+    return;
+  }
 });
 
 
@@ -337,12 +348,12 @@ itineraryShell.addEventListener("click", (e) => {
         <button id="add-day-btn" class="btn btn-primary btn-sm" type="button">Add day</button>
       </div>
 
-      ${renderDays()}
+      ${displayDays()}
     `;
 
   }
 
-  function renderDays() {
+  function displayDays() {
     const days = itinerary.days;
 
     if(days.length === 0) {
@@ -357,12 +368,12 @@ itineraryShell.addEventListener("click", (e) => {
 
     return /*html*/ `
       <div class="mt-3 d-grid gap-3">
-        ${days.map((day, index) => renderDayCard(day, index)).join("")}
+        ${days.map((day, index) => displayDayCard(day, index)).join("")}
       </div>
     `;    
   }
 
-function renderDayCard(day, index) {
+function displayDayCard(day, index) {
     const title = day.title ? escapeHtml(day.title) : `Day ${index + 1}`;
     const notes = day.notes ? escapeHtml(day.notes) : "";
     const events = day.events;
@@ -387,11 +398,47 @@ function renderDayCard(day, index) {
           <hr class="my-3" />
 
           <div class="fw-semibold mb-2">Events</div>
+          ${displayEvents(events)}
         </div>
       </div>
     `;
   }
   
+
+    function displayEvents(events) {
+    if (events.length === 0) {
+      return `<div class="text-muted small">No events yet.</div>`;
+    }
+
+    return /*html*/ `
+      <div class="list-group">
+        ${events.map((event) => displayEventItem(event)).join("")}
+      </div>
+    `;
+  }
+
+  function displayEventItem(event) {
+    const name = escapeHtml(event.name || "Untitled event");
+    const location = event.location ? escapeHtml(event.location) : "";
+    const rating = (event.rating !== "" && event.rating !== undefined && event.rating !== null) ? escapeHtml(event.rating) : "";
+    const duration = (event.duration !== "" && event.duration !== undefined && event.duration !== null) ? escapeHtml(event.duration) : "";
+    const cost = (event.cost !== "" && event.cost !== undefined && event.cost !== null) ? escapeHtml(event.cost) : "";
+    const description = event.description ? escapeHtml(event.description) : "";
+
+    const eventExtraInfo = [];
+    if (location) eventExtraInfo.push(`Location: ${location}`);
+    if (duration !== "") eventExtraInfo.push(`Time spent: ${duration} mins`);
+    if (cost !== "") eventExtraInfo.push(`Money spent: ${cost}`);
+    if (rating !== "") eventExtraInfo.push(`Rating: ${rating}/10`);
+
+    return /*html*/ `
+      <div class="list-group-item">
+        <div class="fw-semibold">${name}</div>
+        ${eventExtraInfo.length ? `<div class="text-muted small">${eventExtraInfo.join(" · ")}</div>` : ""}
+        ${description ? `<div class="mt-2">${description}</div>` : ""}
+      </div>
+    `;
+  }
 
   function saveItinerary() {
     //add last updated 

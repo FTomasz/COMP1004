@@ -34,7 +34,7 @@ export function renderEditItinerary(container) {
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Itinerary title</label>
-                <input id="itinerary-title" class="form-control">
+                <input type="text" id="itinerary-title" class="form-control">
               </div>
 
               <div class="col-md-6">
@@ -83,15 +83,23 @@ export function renderEditItinerary(container) {
           </div>
 
           <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Day title</label>
-              <input id="day-title" class="form-control" placeholder="Day 1 – Arrival">
-            </div>
+<!--https://www.w3schools.com/bootstrap5/bootstrap_form_validation.php -->
+            <form id="day-form" class="needs-validation" novalidate>
 
-            <div class="mb-3">
-              <label class="form-label">Notes</label>
-              <textarea id="day-notes" class="form-control" rows="3"></textarea>
-            </div>
+              <div class="mb-3">
+                <label class="form-label">Day title</label>
+                <input id="day-title" class="form-control" placeholder="Day 1 – Arrival" required min-length="3">
+                <div class="invalid-feedback">
+                  Please enter a day title (at least 3 characters).
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Notes</label>
+                <textarea id="day-notes" class="form-control" rows="3"></textarea>
+              </div>
+
+            </form>
           </div>
 
           <div class="modal-footer">
@@ -217,7 +225,14 @@ export function renderEditItinerary(container) {
 //add day to itinerary
 
 document.getElementById("save-day-btn").onclick = () => {
-  const title = get("day-title").trim() || `Day ${itinerary.days.length + 1}`;
+  const form = document.getElementById("day-form");
+
+  form.classList.add("was-validated");
+
+  if(!form.checkValidity()) return;
+
+
+  const title = get("day-title").trim();
   const notes = get("day-notes").trim();
 
   //add info to days array
@@ -231,6 +246,10 @@ document.getElementById("save-day-btn").onclick = () => {
 
   saveItinerary();
   displayItineraryCard();
+
+  form.reset();
+  form.classList.remove("was-validated");
+
   dayModal.hide();
 }
 

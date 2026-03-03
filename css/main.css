@@ -1,2 +1,22 @@
 @import url("./dashboard.css");
 @import url("./home.css");
+
+body {
+    background: linear-gradient(135deg, #0f2027 0%, #1b3f3a 45%, #0d2b24 100%);
+    background-attachment: fixed;
+    color: #f4f4f4;
+}
+
+.bg-nav {
+    background: rgba(10,28,26,0.88);
+    border-bottom: 1px solid rgba(13,148,136,0.25);
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+}
+
+.nav-link {
+    letter-spacing: 0.1em;
+}

@@ -1,13 +1,14 @@
-.btn-create {
-  --bs-btn-bg: #4f6f52;
-  --bs-btn-border-color: #4f6f52;
-  --bs-btn-hover-bg: #445f47;
-  --bs-btn-active-bg: #3a523d;
+.btn-dashboard {
+  --bs-btn-bg: #48AB9D;
+  --bs-btn-border-color: #48AB9D;
+  --bs-btn-hover-bg: #39877C;
+  --bs-btn-active-bg: #39877C;
+  color: white;
+  font-size: 20px;
+  letter-spacing: 0.1em;
 }
 
 .btn-publish {
-  --bs-btn-bg: #b59b4c;
-  --bs-btn-border-color: #b59b4c;
-  --bs-btn-hover-bg: #9e873f;
-  --bs-btn-active-bg: #857235;
+  --bs-btn-bg: #7C3987;
+  --bs-btn-border-color: #7C3987;
 }

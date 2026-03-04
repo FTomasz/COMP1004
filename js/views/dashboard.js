@@ -7,10 +7,10 @@ export function renderDashboard(container) {
             <h2 class="mb-0">Dashboard</h2>
 
             <div class="d-flex gap-2">
-              <button id="dashboard-btn-create" class="btn btn-create">
+              <button id="dashboard-btn-create" class="btn btn-dashboard">
                 Create Itinerary
               </button>
-              <button id="dashboard-btn-publish" class="btn btn-publish">
+              <button id="dashboard-btn-publish" class="btn btn-dashboard btn-publish">
                 Publish Itinerary
               </button>
             </div>

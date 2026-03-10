@@ -12,3 +12,15 @@
   --bs-btn-bg: #7C3987;
   --bs-btn-border-color: #7C3987;
 }
+
+.delete-button {
+  --bs-btn-bg: #ffcbd1;
+  color: black;
+  letter-spacing: 0.1em;
+}
+
+.edit-button {
+  --bs-btn-bg: #FAB972;
+  color: black;
+  letter-spacing: 0.1em;
+}

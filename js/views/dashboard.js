@@ -104,12 +104,14 @@ export function renderDashboard(container) {
             </div>
             ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
           </div>
-          <button class="btn btn-outline-secondary btn-sm" data-edit-id="${itinerary.id}" type="button">
+          <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm edit-button" data-edit-id="${itinerary.id}" type="button">
             Edit
           </button>
-          <button class="btn btn-outline-secondary btn-sm" data-delete-id="${itinerary.id}" type="button">
+          <button class="btn btn-outline-secondary btn-sm delete-button" data-delete-id="${itinerary.id}" type="button">
             Delete
           </button>
+          </div>
         </div>
       </div>
     `;

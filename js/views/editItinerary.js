@@ -47,7 +47,7 @@ export function renderEditItinerary(container) {
 
                 <div class="col-md-6">
                   <label class="form-label">Season</label>
-                  <select id="itinerary-season" class="form-select">
+                  <select id="itinerary-season" class="form-select" required>
                     <option value="" selected>Select</option>
                     <option value="Spring">Spring</option>
                     <option value="Summer">Summer</option>
@@ -58,7 +58,7 @@ export function renderEditItinerary(container) {
 
                 <div class="col-md-6">
                   <label class="form-label">Duration (days)</label>
-                  <input id="itinerary-duration" type="number" min="1" class="form-control">
+                  <input id="itinerary-duration" type="number" min="1" class="form-control" required>
                 </div>
 
                 <div class="col-12">
@@ -205,6 +205,10 @@ export function renderEditItinerary(container) {
   // build itinerary
   document.getElementById("save-itinerary-btn").onclick = () => {
 
+    const form = document.getElementById("itinerary-form");
+    form.classList.add("was-validated");
+    if (!form.checkValidity()) return;
+
     const data = {
       title: get("itinerary-title").trim() || "Untitled itinerary",
       country: get("itinerary-country").trim(),
@@ -343,7 +347,7 @@ itineraryShell.addEventListener("click", (e) => {
     <div class="card">
       <div class="card-body">
         <p class="mb-3">Create an itinerary to start adding days.</p>
-        <button id="create-itinerary-btn" class="btn btn-create">Create itinerary</button>
+        <button id="create-itinerary-btn" class="btn btn-create btn-outline-secondary">Create itinerary</button>
       </div>
     </div>
     `;

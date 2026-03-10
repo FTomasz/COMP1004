@@ -436,14 +436,24 @@ function displayDayCard(day, index) {
               <h5 class="mb-1">${title}</h5>
               ${notes ? `<div class="text-muted">${notes}</div>` : `<div class="text-muted small">No notes</div>`}
             </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-primary btn-sm" type="button" data-action="add-event" data-day-id="${escapeHtml(day.id)}">
+
+            <div class="d-flex align-items-start gap-2">
+              <button class="btn btn-sm btn-outline-primary edit-button" type="button" data-action="add-event" data-day-id="${escapeHtml(day.id)}">
                 Add event
               </button>
-              <button class="btn btn-outline-primary btn-sm delete-button" type="button" data-action="delete-day" data-day-id="${escapeHtml(day.id)}">
+              <button class="btn btn-sm btn-outline-primary delete-button" type="button" data-action="delete-day" data-day-id="${escapeHtml(day.id)}">
                 Delete day
               </button>
+              <div class="d-flex flex-column gap-1">
+                <button type="button" class="btn btn-default btn-outline-secondary day-order-button" data-action="move-day-up" data-day-id="${escapeHtml(day.id)}" >
+                  ▲
+                </button>
+                <button type="button" class="btn btn-default btn-outline-secondary day-order-button">
+                  ▼
+                </button>
+              </div>
             </div>
+
           </div>
 
           <hr class="my-3" />

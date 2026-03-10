@@ -75,6 +75,14 @@ export function renderDashboard(container) {
     });
   });
 
+  itineraryList.querySelectorAll("[data-delete-id]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-delete-id");
+      localStorage.removeItem(`itinerary_draft_${id}`);
+      renderDashboard(container);
+    });
+  });
+
   function displayItineraryCard(itinerary) {
     const itineraryParts = [];
 
@@ -98,6 +106,9 @@ export function renderDashboard(container) {
           </div>
           <button class="btn btn-outline-secondary btn-sm" data-edit-id="${itinerary.id}" type="button">
             Edit
+          </button>
+          <button class="btn btn-outline-secondary btn-sm" data-delete-id="${itinerary.id}" type="button">
+            Delete
           </button>
         </div>
       </div>

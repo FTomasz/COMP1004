@@ -12,7 +12,7 @@ export function renderEditItinerary(container) {
     </section>
 
     <!-- Toast to say when item has saved -->
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080; top: 60px;">
       <div id="saveToast" class="toast align-items-center" role="status">
         <div class="d-flex">
           <div class="toast-body">Saved successfully!</div>
@@ -319,6 +319,13 @@ itineraryShell.addEventListener("click", (e) => {
     return;
   }
 
+  if (btn.id === "delete-itinerary-btn") {
+    localStorage.removeItem(`itinerary_draft_${itinerary.id}`);
+    sessionStorage.removeItem("active-itinerary-id");
+    window.setView("dashboard");
+    return;
+  }
+
   //button to add a new day to itinerary
   if (btn.id === "add-day-btn") {
     clearDayForm();
@@ -338,8 +345,17 @@ itineraryShell.addEventListener("click", (e) => {
     eventModal.show();
     return;
   }
-});
 
+  if (btn.dataset && btn.dataset.action === "delete-day") {
+    const dayId = btn.dataset.dayId;
+    itinerary.days = itinerary.days.filter(d => d.id !== dayId);
+    saveItinerary();
+    displayItineraryCard();
+    return;
+  }
+
+
+});
 
 //display default message when no itinerary is present
   function displayEmpty() {
@@ -370,7 +386,10 @@ itineraryShell.addEventListener("click", (e) => {
           </div>
 
           <!-- edit button -->
-          <button id="edit-itinerary-btn" class="btn btn-outline-secondary btn-sm" type="button">Edit</button>
+          <div class="d-flex gap-2">
+            <button id="edit-itinerary-btn" class="btn btn-outline-secondary btn-sm edit-button" type="button">Edit</button>
+            <button id="delete-itinerary-btn" class="btn btn-outline-secondary btn-sm delete-button" type="button">Delete</button>
+          </div>
         </div>
       </div>
 
@@ -417,13 +436,14 @@ function displayDayCard(day, index) {
               <h5 class="mb-1">${title}</h5>
               ${notes ? `<div class="text-muted">${notes}</div>` : `<div class="text-muted small">No notes</div>`}
             </div>
-
-            <button
-              class="btn btn-outline-primary btn-sm"
-              type="button"
-              data-action="add-event"
-              data-day-id="${escapeHtml(day.id)}"
-            >Add event</button>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary btn-sm" type="button" data-action="add-event" data-day-id="${escapeHtml(day.id)}">
+                Add event
+              </button>
+              <button class="btn btn-outline-primary btn-sm delete-button" type="button" data-action="delete-day" data-day-id="${escapeHtml(day.id)}">
+                Delete day
+              </button>
+            </div>
           </div>
 
           <hr class="my-3" />

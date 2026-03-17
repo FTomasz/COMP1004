@@ -367,6 +367,21 @@ itineraryShell.addEventListener("click", (e) => {
     displayItineraryCard();
     return;
   }
+
+  if (btn.dataset && btn.dataset.action === "move-day-down") {
+    const dayId = btn.dataset.dayId;
+    const index = itinerary.days.findIndex(d => d.id === dayId);
+
+    if (index < itinerary.days.length - 1) {
+      const [day] = itinerary.days.splice(index, 1);
+      itinerary.days.splice(index + 1, 0, day);
+    }
+
+    saveItinerary();
+    displayItineraryCard();
+    return;
+  }
+
 });
 
 //display default message when no itinerary is present
@@ -460,7 +475,7 @@ function displayDayCard(day, index) {
                 <button type="button" class="btn btn-default btn-outline-secondary day-order-button" data-action="move-day-up" data-day-id="${escapeHtml(day.id)}" >
                   ▲
                 </button>
-                <button type="button" class="btn btn-default btn-outline-secondary day-order-button">
+                <button type="button" class="btn btn-default btn-outline-secondary day-order-button" data-action="move-day-down" data-day-id="${escapeHtml(day.id)}" >
                   ▼
                 </button>
               </div>

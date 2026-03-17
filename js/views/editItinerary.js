@@ -354,6 +354,18 @@ itineraryShell.addEventListener("click", (e) => {
     return;
   }
 
+  if (btn.dataset && btn.dataset.action === "move-day-up") {
+    const dayId = btn.dataset.dayId;
+    
+    // get all the days
+    // move and insert day into different position in the array
+    // save and render itinerary card again
+
+    saveItinerary();
+    displayItineraryCard();
+    return;
+  }
+
 
 });
 

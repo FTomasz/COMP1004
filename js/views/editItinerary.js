@@ -356,17 +356,17 @@ itineraryShell.addEventListener("click", (e) => {
 
   if (btn.dataset && btn.dataset.action === "move-day-up") {
     const dayId = btn.dataset.dayId;
-    
-    // get all the days
-    // move and insert day into different position in the array
-    // save and render itinerary card again
+    const index = itinerary.days.findIndex(d => d.id === dayId);
+
+    if (index > 0) {
+      const [day] = itinerary.days.splice(index, 1);
+      itinerary.days.splice(index - 1, 0, day);
+    }
 
     saveItinerary();
     displayItineraryCard();
     return;
   }
-
-
 });
 
 //display default message when no itinerary is present

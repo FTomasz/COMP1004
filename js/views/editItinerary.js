@@ -247,15 +247,26 @@ document.getElementById("save-day-btn").onclick = () => {
   const title = get("day-title").trim();
   const notes = get("day-notes").trim();
 
-  //add info to days array
-  itinerary.days.push({
+
+  if(selectedDayId) {
+    //edit day
+    const day = itinerary.days.find(d => d.id === selectedDayId);
+    if (day) {
+      day.title = title;
+      day.notes = notes;
+    }
+  } else {
+    //push new day
+    itinerary.days.push({
     //generate unique id for the day
       id: `day_${Date.now()}_${Math.random().toString(16).slice(2)}`,
       title,
       notes,
       events: [],
     });
-
+  }
+  
+  selectedDayId = null;
   saveItinerary();
   displayItineraryCard();
 
@@ -330,6 +341,14 @@ itineraryShell.addEventListener("click", (e) => {
   //button to add a new day to itinerary
   if (btn.id === "add-day-btn") {
     clearDayForm();
+    dayModal.show();
+    return;
+  }
+
+  if (btn.dataset && btn.dataset.action === "edit-day") {
+    const dayId = btn.dataset.dayId;
+    selectedDayId = dayId;
+    fillDayForm(dayId);
     dayModal.show();
     return;
   }
@@ -481,6 +500,9 @@ function displayDayCard(day, index) {
               <button class="btn btn-sm btn-outline-primary edit-button" type="button" data-action="add-event" data-day-id="${escapeHtml(day.id)}">
                 Add event
               </button>
+              <button class="btn btn-sm btn-outline-primary edit-button" type="button" data-action="edit-day" data-day-id="${escapeHtml(day.id)}">
+                Edit day
+              </button>
               <button class="btn btn-sm btn-outline-primary delete-button" type="button" data-action="delete-day" data-day-id="${escapeHtml(day.id)}">
                 Delete day
               </button>
@@ -594,6 +616,13 @@ function displayDayCard(day, index) {
     document.getElementById("itinerary-season").value =  "";
     document.getElementById("itinerary-duration").value =  "";
     document.getElementById("itinerary-description").value =  "";
+  }
+
+  function fillDayForm(dayId) {
+    const day = itinerary.days.find(d => d.id === dayId);
+    if (!day) return;
+    document.getElementById("day-title").value = day.title || "";
+    document.getElementById("day-notes").value = day.notes || "";
   }
 
   function clearDayForm() {

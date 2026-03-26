@@ -320,13 +320,17 @@ itineraryShell.addEventListener("click", (e) => {
   if (!btn) return;
 
   if (btn.id === "create-itinerary-btn") {
+      itineraryMode = "create";
+      itinerary = null;
       clearItineraryForm();
+      document.getElementById("itinerary-form").classList.remove("was-validated");
       itineraryModal.show();
       return;
   }
 
   if (btn.id === "edit-itinerary-btn") {
     fillItineraryForm(itinerary);
+    document.getElementById("itinerary-form").classList.remove("was-validated");
     itineraryModal.show();
     return;
   }

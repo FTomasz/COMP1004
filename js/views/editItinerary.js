@@ -284,6 +284,7 @@ document.getElementById("save-event-btn").onclick = () => {
 
   day.events.push({
     id: `event_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    dayId: selectedDayId,
     name,
     rating,
     location,
@@ -379,6 +380,18 @@ itineraryShell.addEventListener("click", (e) => {
 
     saveItinerary();
     displayItineraryCard();
+    return;
+  }
+
+    if (btn.dataset && btn.dataset.action === "delete-event") {
+    const {dayId, eventId} = btn.dataset;
+    const day = itinerary.days.find(d => d.id === dayId);
+
+    if(day) {
+      day.events = day.events.filter(e => e.id !== eventId);
+      saveItinerary();
+      displayItineraryCard();
+    }
     return;
   }
 
@@ -520,10 +533,16 @@ function displayDayCard(day, index) {
     if (rating !== "") eventExtraInfo.push(`Rating: ${rating}/10`);
 
     return /*html*/ `
-      <div class="list-group-item">
-        <div class="fw-semibold">${name}</div>
-        ${eventExtraInfo.length ? `<div class="text-muted small">${eventExtraInfo.join(" · ")}</div>` : ""}
-        ${description ? `<div class="mt-2">${description}</div>` : ""}
+      <div class="list-group-item d-flex justify-content-between align-items-start gap-3">
+        <div>
+          <div class="fw-semibold">${name}</div>
+          ${eventExtraInfo.length ? `<div class="text-muted small">${eventExtraInfo.join(" · ")}</div>` : ""}
+          ${description ? `<div class="mt-2">${description}</div>` : ""}
+        </div>
+        <button class="btn btn-sm btn-outline-secondary delete-button flex-shrink-0" type="button"
+          data-action="delete-event" data-event-id="${escapeHtml(event.id)}" data-day-id="${escapeHtml(event.dayId)}">
+          Delete
+        </button>
       </div>
     `;
   }

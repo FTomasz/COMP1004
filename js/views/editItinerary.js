@@ -83,7 +83,7 @@ export function renderEditItinerary(container) {
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add a day to the holiday!</h5>
+            <h5 class="modal-title">Add a day to the itinerary!</h5>
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
@@ -111,7 +111,7 @@ export function renderEditItinerary(container) {
 
           <div class="modal-footer">
             <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button id="save-day-btn" class="btn btn-primary">Add day</button>
+            <button id="save-day-btn" class="btn btn-primary">Save day</button>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ export function renderEditItinerary(container) {
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="eventModalTitle">Add event</h5>
+            <h5 class="modal-title" id="eventModalTitle">Modify event</h5>
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
@@ -161,7 +161,7 @@ export function renderEditItinerary(container) {
 
           <div class="modal-footer">
             <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button id="save-event-btn" class="btn btn-primary">Add event</button>
+            <button id="save-event-btn" class="btn btn-primary">Save event</button>
           </div>
         </div>
       </div>
@@ -185,6 +185,8 @@ export function renderEditItinerary(container) {
   let itineraryMode = "create";
 
   let selectedDayId = null;
+  let editingEventId = null;
+
   const activeItineraryId = sessionStorage.getItem("active-itinerary-id");
 
   //try to get the itinerary from local storage
@@ -293,16 +295,22 @@ document.getElementById("save-event-btn").onclick = () => {
   const duration = durationRaw === "" ? "" : Math.max(0, parseInt(durationRaw, 10) || 0);
   const cost = costRaw === "" ? "" : Math.max(0, parseFloat(costRaw) || 0);
 
-  day.events.push({
-    id: `event_${Date.now()}_${Math.random().toString(16).slice(2)}`,
-    dayId: selectedDayId,
-    name,
-    rating,
-    location,
-    duration,
-    cost,
-    description,
-  });
+  const existingEventIndex = day.events.findIndex(e => e.id === editingEventId);
+
+  if(existingEventIndex !== -1) {
+    day.events[existingEventIndex] = {...day.events[existingEventIndex], name, rating, location, duration, cost, description};
+  } else {
+    day.events.push({
+      id: `event_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+      dayId: selectedDayId,
+      name,
+      rating,
+      location,
+      duration,
+      cost,
+      description,
+    });
+  }
 
   saveItinerary();
   displayItineraryCard();
@@ -359,6 +367,7 @@ itineraryShell.addEventListener("click", (e) => {
 
   if (btn.dataset && btn.dataset.action === "add-event") {
     selectedDayId = btn.dataset.dayId;
+    editingEventId = null;
 
     clearEventForm();
     //find the right day, setup modal to add event to the right day
@@ -406,7 +415,16 @@ itineraryShell.addEventListener("click", (e) => {
     return;
   }
 
-    if (btn.dataset && btn.dataset.action === "delete-event") {
+  if (btn.dataset && btn.dataset.action === "edit-event") {
+    const {dayId, eventId} = btn.dataset;
+    selectedDayId = dayId;
+    editingEventId = eventId;
+    fillEventForm(dayId, eventId);
+    eventModal.show();
+    return;
+  }
+
+  if (btn.dataset && btn.dataset.action === "delete-event") {
     const {dayId, eventId} = btn.dataset;
     const day = itinerary.days.find(d => d.id === dayId);
 
@@ -565,10 +583,16 @@ function displayDayCard(day, index) {
           ${eventExtraInfo.length ? `<div class="text-muted small">${eventExtraInfo.join(" · ")}</div>` : ""}
           ${description ? `<div class="mt-2">${description}</div>` : ""}
         </div>
+        <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary edit-button flex-shrink-0" type="button"
+          data-action="edit-event" data-event-id="${escapeHtml(event.id)}" data-day-id="${escapeHtml(event.dayId)}">
+          Edit
+        </button>
         <button class="btn btn-sm btn-outline-secondary delete-button flex-shrink-0" type="button"
           data-action="delete-event" data-event-id="${escapeHtml(event.id)}" data-day-id="${escapeHtml(event.dayId)}">
           Delete
         </button>
+        </div>
       </div>
     `;
   }
@@ -632,6 +656,19 @@ function displayDayCard(day, index) {
   function clearDayForm() {
     document.getElementById("day-title").value = "";
     document.getElementById("day-notes").value = "";
+  }
+
+  function fillEventForm(dayId, eventId) {
+    const day = itinerary.days.find(d => d.id === dayId);
+    if (!day) return;
+    const event = day.events.find(e => e.id === eventId);
+    if (!event) return;
+    document.getElementById("event-name").value = event.name || "";
+    document.getElementById("event-location").value = event.location || "";
+    document.getElementById("event-duration").value = event.location || "";
+    document.getElementById("event-cost").value = event.cost ?? "";
+    document.getElementById("event-rating").value = event.rating ?? "";
+    document.getElementById("event-description").value = event.description || "";
   }
 
   function clearEventForm() {

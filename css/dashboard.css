@@ -8,9 +8,9 @@
   letter-spacing: 0.1em;
 }
 
-.btn-publish {
-  --bs-btn-bg: #7C3987;
-  --bs-btn-border-color: #7C3987;
+.publish-button {
+  --bs-btn-bg: #76d886;
+  --bs-btn-border-color: #76d886;
   color: black;
   letter-spacing: 0.1em;
 }

@@ -8,10 +8,7 @@ export function renderDashboard(container) {
 
             <div class="d-flex gap-2">
               <button id="dashboard-btn-create" class="btn btn-dashboard">
-                Create Itinerary
-              </button>
-              <button id="dashboard-btn-publish" class="btn btn-dashboard btn-publish">
-                Publish Itinerary
+                New Itinerary
               </button>
             </div>
           </div>
@@ -32,12 +29,11 @@ export function renderDashboard(container) {
   `;
 
   document.getElementById("dashboard-btn-create").addEventListener("click", () => {
+    sessionStorage.removeItem("active-itinerary-id"); //ensure that when the user creates a new itinerary, the id is cleared so modal shows in edititinerary page
     window.setView("editItinerary");
   });
 
-  document.getElementById("dashboard-btn-publish").addEventListener("click", () => {
-    window.setView("publishItinerary");
-  });
+  
 
   const itineraryList = document.getElementById("itinerary-list");
   const itineraries = getAllItineraries();
@@ -83,6 +79,14 @@ export function renderDashboard(container) {
     });
   });
 
+  itineraryList.querySelectorAll("[data-publish-id]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-publish-id");
+      sessionStorage.setItem("active-itinerary-id", id);
+      window.setView("publishItinerary");
+    })
+  })
+
   function displayItineraryCard(itinerary) {
     const itineraryParts = [];
 
@@ -105,6 +109,9 @@ export function renderDashboard(container) {
             ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
           </div>
           <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm btn-publish" data-publish-id="${itinerary.id}" type="button">
+            Publish
+          </button>
           <button class="btn btn-outline-secondary btn-sm edit-button" data-edit-id="${itinerary.id}" type="button">
             Edit
           </button>

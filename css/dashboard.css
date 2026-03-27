@@ -11,6 +11,8 @@
 .btn-publish {
   --bs-btn-bg: #7C3987;
   --bs-btn-border-color: #7C3987;
+  color: black;
+  letter-spacing: 0.1em;
 }
 
 .delete-button {

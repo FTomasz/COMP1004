@@ -1,5 +1,6 @@
 export function renderPublishItinerary(container) {
   const id = sessionStorage.getItem("active-itinerary-id");
+  const itinerary = JSON.parse(localStorage.getItem(`itinerary_draft_${id}`));
 
   container.innerHTML = /*html*/ `
     <section class="container py-4">
@@ -27,7 +28,7 @@ export function renderPublishItinerary(container) {
         <div class="col-12 col-lg-10">
           <div class="card">
             <div class="card-body">
-              <h5 class="mb-3">Preview</h5>
+              <h5 class="mb-3">${escapeHtml(itinerary.title)}</h5>
               <div id="itinerary-preview" class="d-flex flex-column gap-2"></div>
             </div>
           </div>
@@ -42,10 +43,32 @@ export function renderPublishItinerary(container) {
     preview.innerHTML =  `<div class="card"><div class="card-body text-muted"> Error: No itinerary found.</div></div>`
     return;
   }
+
+  preview.innerHTML = /*html*/ `
+    <div class="card">
+      <div class="card-body d-flex flex-column gap-4">
+
+        <!-- main holiday overview -->
+        <div class="d-flex gap-4">
+          <div class = "d-flex flex-column gap-1">
+            Country: ${escapeHtml(itinerary.country)}<br>
+            Season: ${escapeHtml(itinerary.season)}<br>
+            Duration: ${escapeHtml(itinerary.duration)} days!
+          </div>
+          <div class="border-start ps-4">
+            <p class="mb-0">${escapeHtml(itinerary.description)}</p>
+          </div>
+        </div>
+        
+        <!-- days and events -->
+        
+
+      </div>
+    </div>
+  `
+
+
 }
-
-
-//add overview of the itinerary, with basic details listed
 
 //reuse code from edit itinerary removing all the editing buttons etc.
 

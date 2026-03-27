@@ -61,15 +61,68 @@ export function renderPublishItinerary(container) {
         </div>
         
         <!-- days and events -->
-        
+        <hr class="m-0">
+
+        ${displayDays(itinerary.days || [])}
 
       </div>
     </div>
   `
-
-
 }
 
+
+function displayDays(days) {
+  if (!days.length) {
+    return `<p class="text-muted fst-italic mb-0">No days planned yet.</p>`;
+  }
+
+  return `<div class="d-flex flex-column gap-4">${days.map((day, index) => displayDayCard(day, index)).join("")}</div>`;
+}
+
+function displayDayCard(day, index) {
+  const title = day.title ? escapeHtml(day.title) : `Day ${index + 1}`;
+  const notes = day.notes ? escapeHtml(day.notes) : "";
+
+  return /*html*/ `
+    <div>
+      <h5 class="mb-1">${title}</h5>
+      <div class="text-muted mb-3">${notes}</div>
+
+      ${displayEvents(day.events || [])}
+    </div>
+  `;
+}
+
+function displayEvents(events) {
+  if (!events.length) {
+    return `<div class="text-muted small fst-italic">No events for this day.</div>`;
+  }
+
+  return `<div class="list-group">${events.map(displayEventItem).join("")}</div>`;
+}
+
+function displayEventItem(event) {
+  const name = escapeHtml(event.name || "Untitled event");
+  const location = event.location ? escapeHtml(event.location) : "";
+  const rating = (event.rating   !== "" && event.rating != null) ? escapeHtml(event.rating) : "";
+  const duration = (event.duration !== "" && event.duration != null) ? escapeHtml(event.duration) : "";
+  const cost = (event.cost !== "" && event.cost != null) ? escapeHtml(event.cost) : "";
+  const description = event.description ? escapeHtml(event.description) : "";
+
+  const meta = [];
+  if (location) meta.push(`Location: ${location}`);
+  if (duration !== "") meta.push(`Time spent: ${duration} mins`);
+  if (cost !== "") meta.push(`Money spent: £${cost}`);
+  if (rating !== "") meta.push(`Rating: ${rating}/10`);
+
+  return /*html*/ `
+    <div class="list-group-item">
+      <div class="fw-semibold">${name}</div>
+      ${meta.length ? `<div class="text-muted small">${meta.join(" · ")}</div>` : ""}
+      ${description ? `<div class="mt-2">${description}</div>` : ""}
+    </div>
+  `;
+}
 //reuse code from edit itinerary removing all the editing buttons etc.
 
 //show days and events, add all text to one card so its easier to export afterwards

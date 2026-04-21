@@ -21,6 +21,12 @@
   letter-spacing: 0.1em;
 }
 
+.export-button {
+  --bs-btn-bg: #e285f4;
+  color: black;
+  letter-spacing: 0.1em;
+}
+
 .edit-button {
   --bs-btn-bg: #FAB972;
   color: black;

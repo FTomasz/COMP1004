@@ -7,6 +7,9 @@ export function renderDashboard(container) {
             <h2 class="mb-0">Dashboard</h2>
 
             <div class="d-flex gap-2">
+              <button id="dashboard-btn-import" class="btn btn-dashboard">
+                Import Itinerary
+              </button>
               <button id="dashboard-btn-create" class="btn btn-dashboard">
                 New Itinerary
               </button>
@@ -33,7 +36,48 @@ export function renderDashboard(container) {
     window.setView("editItinerary");
   });
 
-  
+  document.getElementById("dashboard-btn-import").addEventListener("click", () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".json,application/json";
+
+    //listen for when user selects a file
+    fileInput.addEventListener("change", () => {
+      //set selected file as a variable
+      const file = fileInput.files[0];
+      //check if file exists
+      if (!file) return;
+
+      // read the file
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          //set files contents as a variable, parse it
+          const parsed = JSON.parse(e.target.result);
+
+          //must have an id
+          if (!parsed || !parsed.id) {
+            alert("Invalid itinerary file.");
+            return;
+          }
+          // Give it a new id so it doesn't overwrite current itinerary
+          parsed.id = crypto.randomUUID();
+          parsed.updatedAt = Date.now();
+
+          //add file to local storage and set the id
+          localStorage.setItem(`itinerary_draft_${parsed.id}`, JSON.stringify(parsed));
+          sessionStorage.setItem("active-itinerary-id", parsed.id);
+          window.setView("editItinerary");
+        } catch {
+          alert("Could not read the file. Please select a valid JSON file");
+        }
+      };
+
+      reader.readAsText(file);
+    });
+
+    fileInput.click(); // open the OS file picker
+  });  
 
   const itineraryList = document.getElementById("itinerary-list");
   const itineraries = getAllItineraries();
@@ -63,6 +107,13 @@ export function renderDashboard(container) {
   //map edit button to each itinerary, set the active itinerary id
   //add listener to each button
 
+  itineraryList.querySelectorAll("[data-export-id]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-export-id");
+      exportItinerary(id);
+    });
+  });
+
   itineraryList.querySelectorAll("[data-edit-id]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.getAttribute("data-edit-id");
@@ -85,7 +136,7 @@ export function renderDashboard(container) {
       sessionStorage.setItem("active-itinerary-id", id);
       window.setView("publishItinerary");
     })
-  })
+  });
 
   function displayItineraryCard(itinerary) {
     const itineraryParts = [];
@@ -109,6 +160,9 @@ export function renderDashboard(container) {
             ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
           </div>
           <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm export-button" data-export-id="${itinerary.id}" type="button">
+            Export
+          </button>
           <button class="btn btn-outline-secondary btn-sm publish-button" data-publish-id="${itinerary.id}" type="button">
             Publish
           </button>
@@ -144,6 +198,22 @@ export function renderDashboard(container) {
     }
     return out;
   }
+
+  function exportItinerary(id) {
+    const raw = localStorage.getItem(`itinerary_draft_${id}`);
+    if (!raw) return;
+
+    const blob = new Blob([raw], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `itinerary_${id}.json`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
 
   function escapeHtml(str) {
     return String(str)

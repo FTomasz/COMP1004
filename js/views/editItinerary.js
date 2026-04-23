@@ -518,7 +518,7 @@ function displayDayCard(day, index) {
               ${notes ? `<div class="text-muted">${notes}</div>` : `<div class="text-muted small">No notes</div>`}
             </div>
 
-            <div class="d-flex align-items-start gap-2">
+            <div class="d-flex flex-column flex-sm-row gap-2">
               <button class="btn btn-sm btn-outline-primary edit-button" type="button" data-action="add-event" data-day-id="${escapeHtml(day.id)}">
                 Add event
               </button>

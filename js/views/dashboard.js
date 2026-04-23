@@ -159,7 +159,7 @@ export function renderDashboard(container) {
             </div>
             ${itinerary.description ? `<div class="mt-2">${escapeHtml(itinerary.description)}</div>` : ""}
           </div>
-          <div class="d-flex gap-2">
+          <div class="d-flex flex-column flex-sm-row gap-2">
           <button class="btn btn-outline-secondary btn-sm export-button" data-export-id="${itinerary.id}" type="button">
             Export
           </button>

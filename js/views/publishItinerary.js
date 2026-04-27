@@ -67,7 +67,12 @@ export function renderPublishItinerary(container) {
 
       </div>
     </div>
-  `
+  `;
+
+  document.getElementById("pdf-publish-btn").addEventListener("click", () => {
+    window.print();
+  });
+
 }
 
 

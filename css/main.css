@@ -1,6 +1,21 @@
 @import url("./dashboard.css");
 @import url("./home.css");
 
+@media print {
+    nav,
+    h2,
+    #facebook-publish-btn,
+    #x-publish-btn,
+    #pdf-publish-btn {
+        display: none !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+}
+
+
 body {
     background: linear-gradient(135deg, #0f2027 0%, #1b3f3a 45%, #0d2b24 100%);
     background-attachment: fixed;

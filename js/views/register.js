@@ -37,6 +37,8 @@ export function renderRegister(container) {
     const password = passwordEl.value;
     if (!username || !password) return; //if not there then break
 
+
+
     try {
       //register in local storage
       const res = register({ username, password });
@@ -49,7 +51,7 @@ export function renderRegister(container) {
       updateNavbar();
       window.setView("dashboard");
     } catch (err) {
-      console.error("Register failed:", err);
+      window.alert(err.message);
     }
   });
 }

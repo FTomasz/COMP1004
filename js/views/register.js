@@ -46,6 +46,7 @@ export function renderRegister(container) {
       if (res?.user) localStorage.setItem("auth_user", JSON.stringify(res.user));
 
       //send user to the dashboard after they have registered
+      updateNavbar();
       window.setView("dashboard");
     } catch (err) {
       console.error("Register failed:", err);

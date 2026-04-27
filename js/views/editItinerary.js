@@ -665,7 +665,7 @@ function displayDayCard(day, index) {
     if (!event) return;
     document.getElementById("event-name").value = event.name || "";
     document.getElementById("event-location").value = event.location || "";
-    document.getElementById("event-duration").value = event.location || "";
+    document.getElementById("event-duration").value = event.duration || "";
     document.getElementById("event-cost").value = event.cost ?? "";
     document.getElementById("event-rating").value = event.rating ?? "";
     document.getElementById("event-description").value = event.description || "";

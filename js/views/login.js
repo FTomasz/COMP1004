@@ -50,7 +50,7 @@ export function renderLogin(container) {
       if (typeof window.updateNavbar === "function") window.updateNavbar();
       if (typeof window.setView === "function") window.setView("dashboard");
     } catch (err) {
-      console.error("Login failed:", err);
+      window.alert(err.message);
     }
 
     

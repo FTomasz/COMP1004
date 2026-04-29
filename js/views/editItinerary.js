@@ -1,6 +1,6 @@
 export function renderEditItinerary(container) {
   container.innerHTML = /*html*/ `
-  
+
   <!-- Itinerary Editor -->
     <section class="container py-4">
       <div class="row justify-content-center">
@@ -21,7 +21,8 @@ export function renderEditItinerary(container) {
       </div>
     </div>
 
-    <!-- Add Itinerary Modal -->
+    <!-- Add Itinerary Modal
+      https://getbootstrap.com/docs/5.3/components/modal/ -->
     <div class="modal fade" id="itineraryModal" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -174,6 +175,7 @@ export function renderEditItinerary(container) {
   const dayModal = new bootstrap.Modal(document.getElementById("dayModal"));
   const eventModal = new bootstrap.Modal(document.getElementById("eventModal"));
 
+  // https://getbootstrap.com/docs/5.3/components/toast/ 
   const toastPopup = document.getElementById("saveToast");
   //create Toast and autohide it
   const saveToast = bootstrap.Toast.getOrCreateInstance(toastPopup, { autohide: true, delay: 1200})

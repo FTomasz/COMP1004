@@ -1,7 +1,7 @@
 # Holiday Itinerary Sharing SPA
 
 This project is a Single Page Application developed for COMP1004.
-It allows users to create, publish, vote and share holiday itineraries.
+It allows users to create, publish and share holiday itineraries.
 
 ## Features
 - User authentication
@@ -9,8 +9,8 @@ It allows users to create, publish, vote and share holiday itineraries.
 - SPA navigation without page reloads
 
 ## Technologies Used
-- HTML5
-- CSS3
+- HTML
+- CSS
 - JavaScript
 - Bootstrap
 

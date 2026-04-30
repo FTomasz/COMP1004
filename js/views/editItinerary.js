@@ -168,7 +168,7 @@ export function renderEditItinerary(container) {
       </div>
     </div>
   `;
-
+  //retrieve itinerary shell element to display itinerary cards
   const itineraryShell = document.getElementById("itinerary-shell");
 
   const itineraryModal = new bootstrap.Modal(document.getElementById("itineraryModal"));

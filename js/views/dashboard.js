@@ -141,6 +141,7 @@ export function renderDashboard(container) {
   function displayItineraryCard(itinerary) {
     const itineraryParts = [];
 
+    //check if each part exists and add it to the itinerary parts
     if (itinerary.country) itineraryParts.push(escapeHtml(itinerary.country));
     if (itinerary.season) itineraryParts.push(escapeHtml(itinerary.season));
     if (itinerary.month) itineraryParts.push(escapeHtml(itinerary.month));
@@ -149,6 +150,7 @@ export function renderDashboard(container) {
     const data = itineraryParts.join(" · ");
     const daysCount = (itinerary.days || []).length;
 
+    //return itinerary card with data
     return /*html*/ `
       <div class="card">
         <div class="card-body d-flex justify-content-between align-items-start gap-3">
@@ -196,6 +198,7 @@ export function renderDashboard(container) {
         if (parsed && parsed.id) out.push(parsed);
       } catch (e) {}
     }
+    //return the list of itineraries
     return out;
   }
 
@@ -203,6 +206,7 @@ export function renderDashboard(container) {
     const raw = localStorage.getItem(`itinerary_draft_${id}`);
     if (!raw) return;
 
+    //create blob, url and anchor, file downloads with the name itinerary_id.json
     const blob = new Blob([raw], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
@@ -211,9 +215,9 @@ export function renderDashboard(container) {
     a.download = `itinerary_${id}.json`;
     a.click();
 
+    //cleanup url and anchor
     URL.revokeObjectURL(url);
   }
-
 
   function escapeHtml(str) {
     return String(str)
